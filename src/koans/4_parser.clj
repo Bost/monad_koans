@@ -37,9 +37,9 @@
   (let [str-chars (into #{} target-strn)]
     (char-test #(contains? str-chars %))))
 
-(def alpha (one-of "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+(def alpha (one-of "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"))
 (def whitespace (one-of " \t\n\r"))
-(def digit (one-of "__"))
+(def digit (one-of "1234567890"))
 
 (with-monad parser-m
 
@@ -73,12 +73,12 @@
 
 (def key-parser
   (match-all
-   (match-one __)
+   (match-one alpha)
    (none-or-more
     (match-one
      alpha
-     __
-     __))))
+     whitespace
+     digit))))
 
 (def value-parser
   (none-or-more
@@ -91,17 +91,19 @@
   (domonad parser-m
            [key key-parser
             _ (is-char \=)
-            value value-parser]
+            value value-parser
+            ]
+           ;; (keyword key)
            {(keyword key) value}))
 
 
 (meditations
  "Parsing a character means separating it from the rest"
- (= '(__ __)
+ (= '("m" "onad")
     ((is-char \m) "monad"))
 
  "Is there anything to return if there is no match?"
- (= __
+ (= nil
     ((is-char \m) "danom"))
 
  "creating new parsers is easy"
@@ -110,24 +112,27 @@
 
  "in fact, it is easy to write a parser for any string"
  (= '("foobar" " and baz")
-    ((match-string __) __))
+    ((match-string "foobar") "foobar and baz"))
 
  "parse me: maybe"
  (= '(nil "4abc")
-    ((optional ___) "4abc"))
+    ((optional alpha) "4abc")
+    ((optional whitespace) "4abc"))
 
  "parse this or that"
  (= '("4" "abc")
-    ((match-one __ __) "4abc"))
+    ((match-one whitespace digit) "4abc")
+    ((match-one digit whitespace) "4abc"))
 
  "parse all or burn"
  (= '("15 birds in 5 firtrees" ", [...] fry them, boil them and eat them hot")
     ((match-all
-      __
-      __
-      __
-      __
-      __)
+      (one-or-more digit)
+      (none-or-more (match-one
+                     alpha
+                     whitespace))
+      digit
+      (match-string " firtrees"))
      "15 birds in 5 firtrees, [...] fry them, boil them and eat them hot"))
 
  "you have everything to build a bit more complex parser"
@@ -140,6 +145,6 @@
     (nil? (key-parser " foobar")))
 
  "so lets parse a property into a simple data structure"
- (= '({__ __} __)
+ (= '({:foo-bar "baz 14"} "# some comment")
     (property-parser "foo-bar=baz 14# some comment"))
 )
