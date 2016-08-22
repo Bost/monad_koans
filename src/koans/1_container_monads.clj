@@ -16,7 +16,39 @@
 
 (defn monad-compose [fn1 fn2] (fn [x] (-> x monad-result (monad-bind fn2) (monad-bind fn1))))
 
+(def x 7)
+
+(def mv [5])
+
+;; optional
+(def monad-zero [])
+
+;; optional
+(defn monad-plus [& monadic-vals] (first (drop-while empty? monadic-vals)))
+
 (meditations
+ "Identity law"
+ (= (monad-bind (monad-result x) f1)
+    (f1 x))
+
+ "Second law"
+ (= (monad-bind mv monad-result)
+    mv)
+
+ "Associativity law"
+ (= (monad-bind (monad-bind mv f1) f2)
+    (monad-bind mv (fn [x] (monad-bind (f1 x) f2))))
+
+ "Interaction law: monad-zero and monad-bind"
+ (= (monad-bind monad-zero f1)
+    (monad-bind mv (fn [x] monad-zero))
+    monad-zero)
+
+ "Interaction law: monad-zero and monad-plus"
+ (= (monad-plus mv monad-zero)
+    (monad-plus monad-zero mv)
+    mv)
+
  "Contemplate how the function signatures corelate to the m(onad)-bind and m(onad)-result"
  (= [4 5 6 24 25 26]
     ((fn [x] (->> x f2 (mapcat f1))) 5)

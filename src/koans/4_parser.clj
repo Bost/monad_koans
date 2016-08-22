@@ -1,17 +1,21 @@
 (defmonad parser-m
-  [m-result (fn [x]
+  [;; m-result is required
+   m-result (fn [x]
               (fn [strn]
                 (list x strn)))
 
+   ;; m-bind  is required
    m-bind (fn [parser func]
             (fn [strn]
               (let [result (parser strn)]
                 (when (not= nil result)
                   ((func (first result)) (second result))))))
 
+   ;; m-zero is optional
    m-zero (fn [strn]
             nil)
 
+   ;; m-plus is optional
    m-plus (fn [& parsers]
             (fn [strn]
               (first
