@@ -71,3 +71,9 @@
  "Different data types imply different container monads"
  (= (hash-set 1 2 3 4 5)
     ((with-monad set-m (m-chain [f2-set f1-set])) 2)))
+
+#_(defn composed-bind [mv mf]
+  (fn [state]
+    (maybe-bind (mv state)
+                (fn [[v new-state]]
+                  ((mf v) new-state)))))

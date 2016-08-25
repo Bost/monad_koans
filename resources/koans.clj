@@ -1,7 +1,8 @@
 ;; this file should contain a vector of 2-vectors; each 2-vector must
 ;; contain a koan name and a map of koan answers, in that order.
 
-[["1_container_monads" {"__" [mapcat
+[
+ ["1_container_monads" {"__" [mapcat
                               [x]
                               f2
                               f1
@@ -52,4 +53,8 @@
                     :foo-bar
                     "baz 14"
                     "# some comment"]
-              "___" [alpha]}]]
+              "___" [alpha]}]
+
+ ["5_continuation_monad" {"__" [[1 2 3 3 4 5]]
+                          }]
+ ]
