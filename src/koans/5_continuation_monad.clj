@@ -64,3 +64,57 @@
                            (m-chain [mf-a mf-b]))) identity)
 
 ((mm-bind (mm-bind (mm-bind (mm-result 21) mf-a) mf-b) mf-c) identity) ;; => 43
+
+(defn mf-a [x]
+  (println "starting mf-a")
+  (fn [c]
+    (println "completing mf-a")
+    (c (inc x))))
+
+(defn mf-b [x]
+  (println "starting mf-b")
+  (fn [c]
+    (println "completing mf-b")
+    (c (* 2 x))))
+
+(defn mf-c [x]
+  (println "starting mf-c")
+  (fn [c]
+    (println "completing mf-c")
+    (c (dec x))))
+
+(def fn8 (with-monad cont-m (m-chain [mf-a mf-b mf-c])))
+
+((fn8 10) identity) ;; => 21
+
+(defn halt [x]
+  (fn [c]
+    x))
+
+(def fn9 (with-monad cont-m (m-chain [mf-a halt mf-b mf-c])))
+
+((fn9 10) identity) ;; => 11 (halted)
+
+(defn bounce
+  "Each time bounce is called (via trampoline) it returns a function back to
+  the top level, the call stack is cleared"
+  [x]
+  (fn [c]
+    (fn []
+      (println "bounce")
+      (c x))))
+
+(def fn10 (with-monad cont-m (m-chain [mf-a bounce mf-b bounce mf-c])))
+
+;; ((fn10 10) identity) - returns a function
+
+(trampoline ((fn10 10) identity))
+
+(defn mark [x]
+  (fn [c]
+    c))
+
+(def fn11 (with-monad cont-m (m-chain [mf-a mark mf-b mf-c])))
+
+(def mark-cont ((fn11 10) identity))
+(doall (map mark-cont [0 1 2]))
