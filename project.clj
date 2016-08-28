@@ -2,6 +2,6 @@
   :description "Set of exercises (koans) to learn monads in clojure"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [koan-engine "0.2.3"]
-                 [org.clojure/algo.monads "0.1.5"]]
+                 [org.clojure/algo.monads "0.1.6"]]
   :dev-dependencies [[lein-koan "0.1.2"]]
   :plugins [[lein-koan "0.1.2"]])
