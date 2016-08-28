@@ -21,17 +21,6 @@
 (defn f-c [x]
   (dec x))
 
-
-#_(def fn8 (with-monad identity-m (m-chain [mf-a mf-b mf-c])))
-#_(((fn8 identity) 21) identity)
-
-(def fn8
-  (fn [x] (domonad [r1 (mf-a x)
-                    r2 (mf-b r1)
-                    ] r2)))
-
-(((fn8 10) 10) identity)
-
 (def mm-result
   (fn mm-result-cont [v]
     (fn [c]
@@ -71,12 +60,7 @@
 ((mm-bind (mm-bind (mm-result 21) mf-a) mf-b) identity) ;; => 44
 
 ;; should be equivalent to:
-;; (mm-bind (mm-result 21) ((m-chain [f-a f-b]) identity))
-
-
-#_(with-monad cont-m
-    ((mm-bind (mm-result 21)
-              (m-chain [mf-a mf-b])) identity))
+((mm-bind (mm-result 21) (with-monad cont-m
+                           (m-chain [mf-a mf-b]))) identity)
 
 ((mm-bind (mm-bind (mm-bind (mm-result 21) mf-a) mf-b) mf-c) identity) ;; => 43
-
