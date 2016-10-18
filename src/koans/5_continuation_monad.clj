@@ -1,4 +1,6 @@
 #_(use 'clojure.algo.monads)
+;; Continuations are for control flow - function call/return, exception handling,
+;; gotos, etc.
 
 (defn mf-a [x]
   (fn [c]
