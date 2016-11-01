@@ -5,10 +5,10 @@
 (def data
   {:a [{:aa 1 :bb 2} {:cc 3}] :b [{:dd 4}]})
 
-(def max-3 (- Integer.MAX_VALUE 3))
-(def max-2 (- Integer.MAX_VALUE 2))
-(def max-1 (- Integer.MAX_VALUE 1))
-(def max-0 (- Integer.MAX_VALUE 0))
+(def max-3 (- Integer/MAX_VALUE 3))
+(def max-2 (- Integer/MAX_VALUE 2))
+(def max-1 (- Integer/MAX_VALUE 1))
+(def max-0 (- Integer/MAX_VALUE 0))
 
 (meditations
  "Basic conteplations: Truth has no intro rule"
@@ -41,7 +41,7 @@
 
   "However the end lies quite far in the distance"
   (=
-   {:a [max-3 max-2 max-1 max-0]} #_{max-3 max-2 max-1 _}
+   {:a [max-3 max-2 max-1 max-0]} #_{:a [max-3 max-2 max-1 _]}
    (sp/setval [:a sp/END] [max-0] {:a [max-3 max-2 max-1]}))
 
   "Rise and shine"
@@ -54,14 +54,13 @@
                   :b {:ba -1 :bb 2}
                   :inc {:ris 2} :and {:shy 8}}))
 
-  "Select only those vals for whose the #(..) returns true
-   all in all, it's not so bad"
+  "All in all, we all bet on just a few lucky numbers"
   (=
-   [3 3 18 6 12]
-   (sp/select [sp/ALL sp/ALL #(= 0 (mod % 3))]
-              [[1  2  3  4]
-               [          ]
-               [5  3  2 18]
-               [2  4  6   ]
-               [12        ]]))
+   [3 3 5 7 3 34 12] #_[_ _ _ _ _ _ _]
+   (sp/select [sp/ALL sp/ALL (fn lucky? [n] (some #(= n %) #{3 5 7 12 34}))]
+              [[ 3   2   3   4]
+               [              ]
+               [ 5   7   3  18]
+               [ 2  34   0    ]
+               [    12        ]]))
    )
