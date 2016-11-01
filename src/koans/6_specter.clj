@@ -5,6 +5,11 @@
 (def data
   {:a [{:aa 1 :bb 2} {:cc 3}] :b [{:dd 4}]})
 
+(def max-3 (- Integer.MAX_VALUE 3))
+(def max-2 (- Integer.MAX_VALUE 2))
+(def max-1 (- Integer.MAX_VALUE 1))
+(def max-0 (- Integer.MAX_VALUE 0))
+
 (meditations
  "Basic conteplations: Truth has no intro rule"
  (= true true)
@@ -29,15 +34,15 @@
                     (fn [v] (if (even? v) (inc v) v))))
                  v))))
 
-  "In the beginng was a theory"
+  "In the beginng there was a theory"
   (=
-   {:a [:big :bang 1 2 3]} #_{:a [_ _ 1 2 3]}
-   (sp/setval [:a sp/BEGINNING] [:big :bang] {:a [1 2 3]}))
+   {:a [:big :bang 0 1 2]} #_{:a [_ _ 0 1 2]}
+   (sp/setval [:a sp/BEGINNING] [:big :bang] {:a [0 1 2]}))
 
-  "However the end still lies ahead"
+  "However the end lies quite far in the distance"
   (=
-   {:a [1 2 3 Double/POSITIVE_INFINITY]} #_{:a [1 2 3 _]}
-   (sp/setval [:a sp/END] [Double/POSITIVE_INFINITY] {:a [1 2 3]}))
+   {:a [max-3 max-2 max-1 max-0]} #_{max-3 max-2 max-1 _}
+   (sp/setval [:a sp/END] [max-0] {:a [max-3 max-2 max-1]}))
 
   "Rise and shine"
   (=
