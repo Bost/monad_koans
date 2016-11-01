@@ -46,8 +46,8 @@
 
   "Go, rise and shine! Long live the specter!"
   (=
-   {:long {:liv 3}, :the {:specte 2}, :go {:ris 3}, :and {:shy 9}}
-   #_{:long {:liv _}, :the {:specte _}, :go {:ris _}, :and {:shy _}}
+   {:long {:liv 3} :the {:specte 2} :go {:ris 3} :and {:shy 9}}
+   #_{:long {:liv _} :the {:specte _} :go {:ris _} :and {:shy _}}
    (sp/transform [sp/MAP-VALS sp/MAP-VALS]
                  inc
                  {:long {:liv 2} :the {:specte 1}
@@ -62,4 +62,11 @@
                [ 5   7   3  18]
                [ 2  34   0    ]
                [    12        ]]))
-   )
+
+  "Nobody expects spanish inquisition"
+  (=
+   [42 665 :beast 667] #_[_ _ _ _]
+   (sp/transform [(sp/filterer #(= % 13r03c3)) sp/ALL]
+                 (fn [_] :beast)
+                 [2r101010 0x0299 16r029A 8r1233]))
+  )
