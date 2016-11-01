@@ -44,15 +44,14 @@
    {:a [max-3 max-2 max-1 max-0]} #_{:a [max-3 max-2 max-1 _]}
    (sp/setval [:a sp/END] [max-0] {:a [max-3 max-2 max-1]}))
 
-  "Rise and shine"
+  "Go, rise and shine! Long live the specter!"
   (=
-   {:a {:aa 2} :b {:ba 0, :bb 3} :inc {:ris 3} :and {:shy 9}}
-   #_{:a {:aa 2} :b {:ba 0, :bb 3} :inc {:ris _} :and {:shy _}}
+   {:long {:liv 3}, :the {:specte 2}, :go {:ris 3}, :and {:shy 9}}
+   #_{:long {:liv _}, :the {:specte _}, :go {:ris _}, :and {:shy _}}
    (sp/transform [sp/MAP-VALS sp/MAP-VALS]
                  inc
-                 {:a {:aa 1}
-                  :b {:ba -1 :bb 2}
-                  :inc {:ris 2} :and {:shy 8}}))
+                 {:long {:liv 2} :the {:specte 1}
+                  :go {:ris 2} :and {:shy 8}}))
 
   "All in all, we all bet on just a few lucky numbers"
   (=
