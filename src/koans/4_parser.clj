@@ -1,10 +1,11 @@
 (defmonad parser-m
-  [;; m-result is required
+  ;; (fn [strn] ... ) is the monadic container
+  [;; m-result is required. Type signature: m-result: a -> m a
    m-result (fn [x]
               (fn [strn]
                 (list x strn)))
 
-   ;; m-bind  is required
+   ;; m-bind  is required. Type signature: m-bind: m a -> (a -> m b) -> m b
    m-bind (fn [parser func]
             (fn [strn]
               (let [result (parser strn)]

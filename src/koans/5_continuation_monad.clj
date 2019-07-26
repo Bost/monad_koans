@@ -37,7 +37,7 @@
 
 ;; mm-bind:
 ;; Accept two params, a monadic value (mv) and a monadic function (mf)
-;; Return a monadic value which is a function that accepts a continuation and calls it with some value.
+;; Return a monadic value. Monadic value is a function that accepting a continuation and this continuation with some value.
 ;; Unwrap mv to get at the inner value. This must be done by calling mv and passing it a continuation.
 ;; The continuation to be passed to mv must be a combination of mf and the outer continuation passed to the monadic value returned by mm-bind.
 ;; So this inner continuation must be created when the monadic value returned by mm-bind is called with the outer continuation.

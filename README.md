@@ -21,13 +21,13 @@ the sequence that you should follow).
 
 You'll see something like this:
 
-    Now meditate upon /home/benedek/projects/monad-koans/src/koans/1_monad_basics.clj:23
+    Now meditate upon /home/benedek/projects/monad-koans/src/koans/1_container_monad.clj:23
     ---------------------
     Assertion failed!
     Contemplate how the function signatures corelate to the m(onad)-bind and m(onad)-result
     (= [5 4 3 6 5 4 7 6 5 25 24 23 26 25 24 27 26 25] ((fn [x] (->> x f3 (mapcat f2) (mapcat f1))) 5) ((monad-compose f1 f2 f3) 5))
 
-The output is telling you that you have a failing test in `src/koans/1_monad-basics.clj`. Open that file up and make it pass!  In general, you just fill in the blanks to make tests pass.  Sometimes there are several (or even an infinite number) of correct answers: any of them will work in these cases.
+The output is telling you that you have a failing test in `src/koans/1_container_monad.clj`. Open that file up and make it pass!  In general, you just fill in the blanks to make tests pass.  Sometimes there are several (or even an infinite number) of correct answers: any of them will work in these cases.
 
 The koans differ from normal TDD in that the tests are already written for you, so you'll have to pay close attention to the failure messages, because up until the very end, making a test pass just means that the next failure message comes up.
 

@@ -44,7 +44,7 @@
    {:a [max-3 max-2 max-1 max-0]} #_{:a [max-3 max-2 max-1 _]}
    (sp/setval [:a sp/END] [max-0] {:a [max-3 max-2 max-1]}))
 
-  "Go, rise and shine! Long live the specter!"
+  "Go, rise and shine! Long live specter!"
   (=
    {:long {:liv 3} :the {:specte 2} :go {:ris 3} :and {:shy 9}}
    #_{:long {:liv _} :the {:specte _} :go {:ris _} :and {:shy _}}

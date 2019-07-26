@@ -10,7 +10,7 @@
 
 (def f2-set (as-set f2))
 
-(defn monad-bind [monad-value monad-function] (mapcat monad-function monad-value))
+(defn monad-bind [monadic-val monadic-fn] (mapcat monadic-fn monadic-val))
 
 (defn monad-result [x] [x])
 
