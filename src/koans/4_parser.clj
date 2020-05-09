@@ -1,33 +1,47 @@
+#_(ns koans.4-parser
+  (:use [clojure.algo.monads]))
+
 (defmonad parser-m
   ;; (fn [strn] ... ) is the monadic container
-  [;; m-result is required. Type signature: m-result: a -> m a
-   m-result (fn [x]
-              (fn [strn]
-                (list x strn)))
+  [m-result
+   (defn m-result-fn
+     "Required. Type signature: m-result: a -> m a"
+     [a]
+     (fn [strn]
+       (list a strn)))
 
-   ;; m-bind  is required. Type signature: m-bind: m a -> (a -> m b) -> m b
-   m-bind (fn [parser func]
-            (fn [strn]
-              (let [result (parser strn)]
-                (when (not= nil result)
-                  ((func (first result)) (second result))))))
+   m-bind
+   (defn m-bind-fn
+     "Required. Type signature:  m a -> (a -> m b) -> m b"
+     [parser func]
+     (fn [strn]
+       (let [result (parser strn)]
+         (when (not= nil result)
+           ((func (first result)) (second result))))))
 
-   ;; m-zero is optional
-   m-zero (fn [strn]
-            nil)
+   m-zero
+   (defn m-zero-fn
+     "Optional. The zero-value of the specified type.
+  Type signature: a -> m a
+  Returns an empty monadic container."
+     [strn]
+     ;; ?? should m-zero return an empty list or a nil?
+     (list)
+     #_nil)
 
-   ;; m-plus is optional
-   m-plus (fn [& parsers]
-            (fn [strn]
-              (first
-               (drop-while nil?
-                           (map #(% strn) parsers)))))])
+   m-plus
+   (defn m-plus-fn
+     "Optional; Type signature: m a -> m a -> m a"
+     [& parsers]
+     (fn [strn]
+       (first
+        (drop-while nil?
+                    (map (fn [parser] (parser strn)) parsers)))))])
 
 (defn any-char [strn]
   (if (= "" strn)
     nil
     (list (first strn) (. strn (substring 1)))))
-
 
 (defn char-test [pred]
   (domonad parser-m
@@ -100,7 +114,6 @@
             ]
            ;; (keyword key)
            {(keyword key) value}))
-
 
 (meditations
  "Parsing a character means separating it from the rest"
